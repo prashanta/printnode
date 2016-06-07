@@ -15,6 +15,7 @@
     "bootstrap": "^3.3.6",
     "express": "^4.13.3",
     "express-handlebars": "^3.0.0",
+    "glob": "^7.0.3",
     "jquery": "^2.2.3",
     "jsonfile": "^2.3.1",
     "morgan": "^1.6.1",

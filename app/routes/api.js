@@ -7,7 +7,11 @@ module.exports = function(app, mc){
 
    var router = express.Router();
 
-   router.get('/appsettings', function(req, res) {
+   /*
+   * GET PRINTER SETTINGS
+   * Returns printer and print server specific settings.
+   */
+   router.get('/printersettings', function(req, res) {
       var file = 'app/settings.json';
       var data = jsonfile.readFileSync(file);
       var ports = [];
@@ -28,7 +32,9 @@ module.exports = function(app, mc){
       });
    });
 
-   // Test Print
+   /*
+   * TEST PRINT
+   */
    router.get('/testprint', function(req, res){
       var file = 'app/settings.json';
       var data = jsonfile.readFileSync(file);
@@ -37,6 +43,9 @@ module.exports = function(app, mc){
       });
    });
 
+   /*
+   * TEST PRINT HEAD
+   */
    router.get('/testprinthead', function(req, res){
       var file = 'app/settings.json';
       var data = jsonfile.readFileSync(file);
@@ -45,33 +54,28 @@ module.exports = function(app, mc){
       });
    });
 
-   // Get Print Layouts
+   /*
+   * GET PRINT TEMPLATES
+   */
    router.get('/layouts', function(req, res){
       var data = ['layout1', 'layout2'];
       res.send(data);
    });
 
-   // SAVE Application Settings Data
-   router.post('/appsettings', function(req, res) {
+   // GET PRINT SERVER STATUS
+   router.get('/serverstat', function(req, res){
+      res.send(mc.isConnectedToPrintServer());
+   });
+
+   // SAVE APPLICATION SETTINGS
+   router.post('/printersettings', function(req, res) {
       var file = 'app/settings.json';
       var data = jsonfile.readFileSync(file);
       var newData = req.body;
       jsonfile.writeFileSync(file, newData);
-      if(data.printServerIp != newData.printServerIp){
-         mc.connect();
-      }
+      mc.setup();
       res.send(req.body);
    });
 
-   router.get('/error', function(req, res) {
-      var data = {
-         code: '101',
-         mesage: 'This is a dummy error message'
-      }
-      res.status(500);
-      res.send(data);
-   });
    app.use('/api', router);
 }
-
-// GET Application Settings Data

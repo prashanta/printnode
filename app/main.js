@@ -22,7 +22,7 @@ module.exports = function(app, config) {
    app.set('view engine', 'handlebars');
 
    var mc = new mqttClient();
-   mc.connect();
+   mc.setup();
 
    app.use(favicon(config.root + '/public/img/favicon.ico'));
    app.use(morgan('dev'));

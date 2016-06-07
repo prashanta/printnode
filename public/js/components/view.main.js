@@ -20,12 +20,15 @@ export default class ViewMain extends React.Component{
       return (
          <div>
             <Tabs defaultActiveKey={this.state.defaultTab} id="uncontrolled-tab-example">
+
                <Tab eventKey={1} title="Settings">
                   <ViewSettings />
                </Tab>
+
                <Tab eventKey={2} title="Manual Printing">
                   <ViewManualPrinting />
                </Tab>
+               
             </Tabs>
          </div>
       );

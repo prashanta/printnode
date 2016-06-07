@@ -5,7 +5,6 @@ import React  from 'react';
 import Backbone  from 'backbone';
 import BackboneReact from 'backbone-react-component';
 import {Panel, FormGroup, ControlLabel, FormControl, Button, Col, HelpBlock} from 'react-bootstrap';
-import ModelAppSettings from './../model/model.appsettings';
 import Radio  from 'backbone.radio';
 
 export default class ViewSettings extends React.Component{

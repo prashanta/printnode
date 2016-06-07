@@ -35,7 +35,6 @@ var printer = {
          }
          else {
             sp.write("~V\n", function(err, results){
-               console.log(results);
                sp.close();
                callback("Printing done");
             });
@@ -53,7 +52,6 @@ var printer = {
          }
          else {
             sp.write("~T\n", function(err, results){
-               console.log(results);
                sp.close();
                callback("Printing done");
             });

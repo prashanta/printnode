@@ -53908,10 +53908,6 @@ var _backboneReactComponent2 = _interopRequireDefault(_backboneReactComponent);
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _modelModelAppsettings = require('./../model/model.appsettings');
-
-var _modelModelAppsettings2 = _interopRequireDefault(_modelModelAppsettings);
-
 var _backboneRadio = require('backbone.radio');
 
 var _backboneRadio2 = _interopRequireDefault(_backboneRadio);
@@ -53980,7 +53976,7 @@ var ViewSettings = (function (_React$Component) {
 exports['default'] = ViewSettings;
 module.exports = exports['default'];
 
-},{"./../model/model.appsettings":450,"backbone":13,"backbone-react-component":11,"backbone.radio":12,"react":436,"react-bootstrap":271,"underscore":440}],447:[function(require,module,exports){
+},{"backbone":13,"backbone-react-component":11,"backbone.radio":12,"react":436,"react-bootstrap":271,"underscore":440}],447:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -54015,9 +54011,9 @@ var _backboneReactComponent2 = _interopRequireDefault(_backboneReactComponent);
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _modelModelAppsettings = require('./../model/model.appsettings');
+var _modelModelPrintersettings = require('./../model/model.printersettings');
 
-var _modelModelAppsettings2 = _interopRequireDefault(_modelModelAppsettings);
+var _modelModelPrintersettings2 = _interopRequireDefault(_modelModelPrintersettings);
 
 var _backboneRadio = require('backbone.radio');
 
@@ -54035,14 +54031,16 @@ var ViewSettings = (function (_React$Component) {
          text2ValidationState: "success"
       };
 
-      this.appsettings = new _modelModelAppsettings2['default']();
+      this.printersettings = new _modelModelPrintersettings2['default']();
+
       this.handleTextChange = this.handleTextChange.bind(this);
       this.handlePortSelect = this.handlePortSelect.bind(this);
+      this.handleCheckServerStatus = this.handleCheckServerStatus.bind(this);
       this.handleSave = this.handleSave.bind(this);
 
       this.oc = _backboneRadio2['default'].channel('overlay');
 
-      this.appsettings.on('sync', function () {
+      this.printersettings.on('sync', function () {
          this.oc.trigger("overlay:hide");
       }, this);
    }
@@ -54052,14 +54050,14 @@ var ViewSettings = (function (_React$Component) {
       value: function componentWillMount() {
          _backboneReactComponent2['default'].on(this, {
             models: {
-               appsettings: this.appsettings
+               appsettings: this.printersettings
             }
          });
       }
    }, {
       key: 'componentDidMount',
       value: function componentDidMount() {
-         this.appsettings.fetch();
+         this.printersettings.fetch();
          this.oc.trigger("overlay:show");
       }
    }, {
@@ -54078,7 +54076,7 @@ var ViewSettings = (function (_React$Component) {
             } else {
                this.setState({ text1ValidationState: "success" });
             }
-            temp.printerNodeId = val;
+            temp.printNodeId = val;
          } else {
             if (val.length <= 0) this.setState({ text2ValidationState: "error" });else this.setState({ text2ValidationState: "success" });
             temp.printServerIp = val;
@@ -54094,10 +54092,16 @@ var ViewSettings = (function (_React$Component) {
          this.setState({ appsettings: temp });
       }
    }, {
+      key: 'handleCheckServerStatus',
+      value: function handleCheckServerStatus() {
+         $.get('/api/serverstat');
+         //TODO Annunciate print server connection status
+      }
+   }, {
       key: 'handleSave',
       value: function handleSave() {
          this.oc.trigger("overlay:show");
-         this.appsettings.save();
+         this.printersettings.save();
       }
    }, {
       key: 'render',
@@ -54120,7 +54124,7 @@ var ViewSettings = (function (_React$Component) {
                         null,
                         'Printer Node ID'
                      ),
-                     _react2['default'].createElement(_reactBootstrap.FormControl, { type: 'text', value: this.state.appsettings.printerNodeId,
+                     _react2['default'].createElement(_reactBootstrap.FormControl, { type: 'text', value: this.state.appsettings.printNodeId,
                         onChange: this.handleTextChange }),
                      _react2['default'].createElement(
                         _reactBootstrap.HelpBlock,
@@ -54173,6 +54177,13 @@ var ViewSettings = (function (_React$Component) {
                         _reactBootstrap.Button,
                         { onClick: this.handleSave, bsStyle: 'success' },
                         'Save'
+                     ),
+                     _react2['default'].createElement('br', null),
+                     _react2['default'].createElement('br', null),
+                     _react2['default'].createElement(
+                        _reactBootstrap.Button,
+                        { onClick: this.handleCheckServerStatus, bsStyle: 'success' },
+                        'Check Server Status'
                      )
                   )
                )
@@ -54187,7 +54198,7 @@ var ViewSettings = (function (_React$Component) {
 exports['default'] = ViewSettings;
 module.exports = exports['default'];
 
-},{"./../model/model.appsettings":450,"backbone":13,"backbone-react-component":11,"backbone.radio":12,"react":436,"react-bootstrap":271,"underscore":440}],448:[function(require,module,exports){
+},{"./../model/model.printersettings":450,"backbone":13,"backbone-react-component":11,"backbone.radio":12,"react":436,"react-bootstrap":271,"underscore":440}],448:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -54259,20 +54270,20 @@ var _backbone = require('backbone');
 
 var _backbone2 = _interopRequireDefault(_backbone);
 
-var ModelAppSettings = (function (_Backbone$Model) {
-   _inherits(ModelAppSettings, _Backbone$Model);
+var ModelPrinterSettings = (function (_Backbone$Model) {
+   _inherits(ModelPrinterSettings, _Backbone$Model);
 
-   function ModelAppSettings() {
-      _classCallCheck(this, ModelAppSettings);
+   function ModelPrinterSettings() {
+      _classCallCheck(this, ModelPrinterSettings);
 
-      _get(Object.getPrototypeOf(ModelAppSettings.prototype), 'constructor', this).apply(this, arguments);
+      _get(Object.getPrototypeOf(ModelPrinterSettings.prototype), 'constructor', this).apply(this, arguments);
    }
 
-   _createClass(ModelAppSettings, [{
+   _createClass(ModelPrinterSettings, [{
       key: 'defaults',
       value: function defaults() {
          return {
-            printerNodeId: '',
+            printNodeId: '',
             printServerIp: '',
             ports: []
          };
@@ -54280,14 +54291,14 @@ var ModelAppSettings = (function (_Backbone$Model) {
    }, {
       key: 'url',
       value: function url() {
-         return '/api/appsettings';
+         return '/api/printersettings';
       }
    }]);
 
-   return ModelAppSettings;
+   return ModelPrinterSettings;
 })(_backbone2['default'].Model);
 
-exports['default'] = ModelAppSettings;
+exports['default'] = ModelPrinterSettings;
 module.exports = exports['default'];
 
 },{"backbone":13}],451:[function(require,module,exports){

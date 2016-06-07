@@ -5,7 +5,7 @@ import React  from 'react';
 import Backbone  from 'backbone';
 import BackboneReact from 'backbone-react-component';
 import {Panel, FormGroup, ControlLabel, FormControl, Button, Col, HelpBlock} from 'react-bootstrap';
-import ModelAppSettings from './../model/model.appsettings';
+import ModelPrinterSettings from './../model/model.printersettings';
 import Radio  from 'backbone.radio';
 
 export default class ViewSettings extends React.Component{
@@ -17,14 +17,16 @@ export default class ViewSettings extends React.Component{
          text2ValidationState : "success",
       }
 
-      this.appsettings = new ModelAppSettings();
+      this.printersettings = new ModelPrinterSettings();
+
       this.handleTextChange = this.handleTextChange.bind(this);
       this.handlePortSelect = this.handlePortSelect.bind(this);
+      this.handleCheckServerStatus = this.handleCheckServerStatus.bind(this);
       this.handleSave = this.handleSave.bind(this);
 
       this.oc = Radio.channel('overlay');
 
-      this.appsettings.on('sync', function(){
+      this.printersettings.on('sync', function(){
          this.oc.trigger("overlay:hide");
       }, this);
    }
@@ -32,13 +34,13 @@ export default class ViewSettings extends React.Component{
    componentWillMount(){
       BackboneReact.on(this,{
          models: {
-            appsettings: this.appsettings
+            appsettings: this.printersettings
          }
       });
    }
 
    componentDidMount(){
-      this.appsettings.fetch();
+      this.printersettings.fetch();
       this.oc.trigger("overlay:show");
    }
 
@@ -55,7 +57,7 @@ export default class ViewSettings extends React.Component{
          }else {
             this.setState({text1ValidationState: "success"})
          }
-         temp.printerNodeId = val;
+         temp.printNodeId = val;
       }
       else{
          if(val.length <= 0)
@@ -74,9 +76,14 @@ export default class ViewSettings extends React.Component{
       this.setState({appsettings: temp});
    }
 
+   handleCheckServerStatus(){
+      $.get('/api/serverstat');
+      //TODO Annunciate print server connection status
+   }
+
    handleSave(){
       this.oc.trigger("overlay:show");
-      this.appsettings.save();
+      this.printersettings.save();
    }
 
    render(){
@@ -87,7 +94,7 @@ export default class ViewSettings extends React.Component{
                <form>
                   <FormGroup controlId="nodeId" validationState={this.state.text1ValidationState}>
                      <ControlLabel>Printer Node ID</ControlLabel>
-                     <FormControl type="text" value={this.state.appsettings.printerNodeId}
+                     <FormControl type="text" value={this.state.appsettings.printNodeId}
                      onChange={this.handleTextChange}/>
                      <HelpBlock>Must be greater than 3 characters</HelpBlock>
                   </FormGroup>
@@ -113,9 +120,9 @@ export default class ViewSettings extends React.Component{
                   </FormGroup>
 
                   <FormGroup>
-                     <Button onClick={this.handleSave} bsStyle="success">
-                         Save
-                     </Button>
+                     <Button onClick={this.handleSave} bsStyle="success">Save</Button>
+                     <br/><br/>
+                     <Button onClick={this.handleCheckServerStatus} bsStyle="success">Check Server Status</Button>
                   </FormGroup>
                </form>
             </div>

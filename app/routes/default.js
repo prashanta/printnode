@@ -1,5 +1,4 @@
 var express = require('express');
-var babel = require("babel-core");
 var router = express.Router();
 
 module.exports = function (app) {

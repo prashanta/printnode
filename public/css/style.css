@@ -1,0 +1,33 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.logo{
+	background: url(/img/logo.svg) no-repeat top right;
+	float: right;
+	width: 150px;
+	min-height: 50px;
+}
+
+.tab_content.container{
+   padding-top: 10px;
+   padding-left: 10px;
+   padding-right: 10px;
+   margin-left: 0px;
+   margin-right: 0px;
+}
+
+.overlay{
+   position: absolute;
+   top: 0px;
+   right: 0px;
+   left: 0px;
+   bottom: 0px;
+
+   z-index: 1000;
+   background-color: rgba(10,10,10,.6);
+}

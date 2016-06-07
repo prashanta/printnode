@@ -14,11 +14,11 @@ var printer = {
       var portList = [];
       serialPort.list(function (err, ports) {
          if(ports.length > 0){
-            ports.forEach(function(port) {
-               console.log(port.comName);
-               console.log(port.pnpId);
-               console.log(port.manufacturer);
-            });
+            // ports.forEach(function(port) {
+            //    console.log(port.comName);
+            //    console.log(port.pnpId);
+            //    console.log(port.manufacturer);
+            // });
             portList = ports;
          }
          callback(portList);

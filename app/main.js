@@ -5,6 +5,8 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var glob = require('glob');
+var mqttClient  = require('./core/mqttutil');
+
 
 module.exports = function(app, config) {
    var env = process.env.NODE_ENV || 'development';
@@ -19,6 +21,8 @@ module.exports = function(app, config) {
    }));
    app.set('view engine', 'handlebars');
 
+   var mc = new mqttClient();
+   mc.connect();
 
    app.use(favicon(config.root + '/public/img/favicon.ico'));
    app.use(morgan('dev'));
@@ -29,7 +33,7 @@ module.exports = function(app, config) {
    // Register all routes
    var routes = glob.sync(config.root + '/app/routes/*.js');
    routes.forEach(function (route) {
-      require(route)(app);
+      require(route)(app, mc);
    });
 
    app.use(function (req, res, next) {

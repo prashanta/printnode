@@ -7,7 +7,7 @@ var jsonfile = require('jsonfile');
 var mqtt    = require('mqtt');
 var printer = require('./printer');
 
-module.exports = function(){
+mqttutil = function(){
 
    // The MQTT Client
    this.mqttClient = "";
@@ -21,13 +21,13 @@ module.exports = function(){
       printNodeId: "",
       printerPort: "",
       printeServerIp: ""
-   }
+   };
 
    this.oldps = {
       printNodeId: "",
       printerPort: "",
       printeServerIp: ""
-   }
+   };
 
    // Setup printer port and print server IP
    this.setup= function(){
@@ -51,29 +51,29 @@ module.exports = function(){
       }
       else if(this.oldps.printNodeId != this.ps.printNodeId)
          this.subscribeToPrintChannel();
-   }
+   };
 
    // Connect to Print Server
    this.connect= function(){
       this.mqttClient  = mqtt.connect('mqtt://' +  this.ps.printServerIp, {connectTimeout: 10*1000});
       this.mqttClient.on('error', function () {
-         console.log("No connection to mothership!");
+         console.log("No connection to print broker at " + this.ps.printServerIp);
       });
       this.mqttClient.on('connect', this.subscribeToPrintChannel.bind(this));
    };
 
    // Subscribe to print channel
    this.subscribeToPrintChannel = function(){
-      console.log("Connected to mothership");
+      console.log("Connected to print broker at " + this.ps.printServerIp);
       var topic = this.topic + '/' + this.ps.printNodeId;
-      var oldTopic = this.topic + '/' + this.oldps.printNodeId
+      var oldTopic = this.topic + '/' + this.oldps.printNodeId;
 
       var sub = function(){
          this.mqttClient.subscribe(topic);
          console.log("Sub to : " + topic);
          this.subscribed = true;
          this.mqttClient.on('message', this.processPrintRequest.bind(this));
-      }
+      };
 
       if(this.subscribed){
          if(oldTopic != topic){
@@ -88,12 +88,13 @@ module.exports = function(){
    // Is connected to Print Server
    this.isConnectedToPrintServer = function(){
       return this.mqttClient.connected;
-   }
+   };
 
    // Process print request
    this.processPrintRequest =  function(topic, message){
       console.log(topic + " : "  + message.toString() );
       if(topic == (this.topic + '/' + this.ps.printNodeId) ){
+         // TODO proceded only if message is in JSON format
          var payload = JSON.parse(message.toString());
          switch(payload.cmd){
             case "test":
@@ -106,11 +107,15 @@ module.exports = function(){
                   console.log(message);
                });
                break;
-            case "tprint":
-               console.log("print using template");
+            case "labelprint":
+               printer.printLabel(this.ps.printerPort, payload, function(result){
+                  console.log(result);
+               });
                break;
          }
 
       }
    };
-}
+};
+
+module.exports = new mqttutil();

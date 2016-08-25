@@ -1,12 +1,13 @@
 var path = require('path');
 var express = require('express');
+var multer  = require('multer')
 var exphbs  = require('express-handlebars');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var glob = require('glob');
 var mqttClient  = require('./core/mqttutil');
-
+var upload = multer({ dest: './uploads/' });
 
 module.exports = function(app, config) {
    var env = process.env.NODE_ENV || 'development';
@@ -21,8 +22,8 @@ module.exports = function(app, config) {
    }));
    app.set('view engine', 'handlebars');
 
-   var mc = new mqttClient();
-   mc.setup();
+   //var mc = new mqttClient();
+   mqttClient.setup();
 
    app.use(favicon(config.root + '/public/img/favicon.ico'));
    app.use(morgan('dev'));
@@ -33,7 +34,12 @@ module.exports = function(app, config) {
    // Register all routes
    var routes = glob.sync(config.root + '/app/routes/*.js');
    routes.forEach(function (route) {
-      require(route)(app, mc);
+      require(route)(app);
+   });
+
+   app.post('/bulk', upload.single('file'), function (req, res, next) {
+      console.log(req.body);
+      console.log(req.file);
    });
 
    app.use(function (req, res, next) {

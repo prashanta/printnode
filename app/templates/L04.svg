@@ -1,0 +1,15 @@
+<svg width="79mm" height="52mm" style="border: 1px solid #CCC" data-template-name="test">
+
+    <rect x="0mm" y="0mm" width="74mm" height="48.5mm" style="stroke: #000000; fill: none;" stroke-width="0.3mm" />
+    
+  	<line x1="0mm" y1="25mm" x2="74mm" y2="25mm" stroke="red" stroke-width="0.25mm" fill="none" />
+    
+    <text x="34mm" y="4mm" font-size= "4mm">RTV</text>
+  
+    <text x="2mm" y="8mm" font-size= "2mm">PartNo</text>
+  	<text x="2mm" y="14mm" font-size= "5mm">{PartNo}</text>
+  	<text x="2mm" y="24mm" font-size= "8mm">#BA#-PartNo</text>
+    <text x="2mm" y="30mm" font-size= "2mm">{Desc1}</text>    
+  	<text x="2mm" y="36mm" font-size= "2mm">{Desc2}</text>
+  	<text x="2mm" y="42mm" font-size= "2mm">{Desc3}</text>
+</svg>

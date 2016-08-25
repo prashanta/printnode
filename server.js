@@ -1,3 +1,4 @@
+debugger;
 var express = require('express');
 var config = require('./app/config');
 var app = express();

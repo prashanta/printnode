@@ -14,7 +14,7 @@ export default class Overlay extends React.Component{
       return (
          <div className='overlay' style={style}>
             <br/>
-            <center><i className="fa fa-spinner fa-spin fa-3x fa-fw"></i></center>
+            <center><i className="fa fa-cog fa-spin"></i></center>
          </div>
       );
    }

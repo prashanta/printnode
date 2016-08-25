@@ -1,0 +1,14 @@
+<div>
+<ul class="list-group">
+	<li class="list-group-item"><input type='text' class='form-control text-bold' placeholder='Name' value={{name}}></li>
+	<li class="list-group-item"><input type='text' class='form-control' placeholder='Path' value={{path}}></li>
+	<li class="list-group-item">
+		<div class="btn-toolbar" role="toolbar">    						
+			<div class="btn-group">
+				<button data="small" type="button" class="btn btn-default">Small</button>  								
+				<button data="original" type="button" class="btn btn-default">Original</button>
+			</div>
+		</div>
+	</li>
+</ul>
+</div>

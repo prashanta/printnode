@@ -16,7 +16,7 @@ export default class Header extends React.Component{
                <div className="container-fluid">
                   <div className="navbar-header">
                      <div className="navbar-brand">
-                        {this.props.title}&nbsp;&nbsp;<sup>{this.props.ver}</sup>
+                        <b>{this.props.title}</b>&nbsp;&nbsp;<sup>{this.props.ver}</sup>
                      </div>
                   </div>
                   <div className="navbar-right">

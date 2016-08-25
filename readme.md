@@ -1,6 +1,9 @@
 # PrintNode
 
-A server that relays print commands to GoDEX label printer connected via serial port, from other apps using MQTT. Provides web interface to setup and test the printer. Intended to be deployed on a Raspberry Pi.
+A server app that relays print commands to GoDEX barcode printer connected via serial port, from other apps using MQTT. Provides web interface to setup and test printer.
+
+Intended to be deployed on a RaspberryPi (using resin.io).
+
 ---
 ###To install:
 ```sh

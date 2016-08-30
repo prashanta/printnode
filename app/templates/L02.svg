@@ -17,5 +17,5 @@
   	<text x="32mm" y="28mm" font-size= "2mm">BIN</text>
     <text x="32mm" y="34mm" font-size= "4mm">{Bin}</text>
 
-  	<text x="55mm" y="36mm" font-size= "1mm">#DATE#</text>
+  	<text x="55mm" y="45mm" font-size= "1mm">#DATE#</text>
 </svg>

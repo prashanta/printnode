@@ -8,7 +8,7 @@ var config = {
     app: {
       name: 'printernode'
     },
-    port: 80,
+    port: 3000,
   },
 
   test: {

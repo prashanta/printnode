@@ -100,10 +100,10 @@ export default class ViewLabelTemplate extends React.Component{
             </Row>
             <Button bsStyle="primary" onClick={this.onPrint}>Print</Button>
             <br/>
-            <form ref="fileUpload" id='upload_form' action='Upload' method='post' encType='multipart/form-data'>
+            {/*<form ref="fileUpload" id='upload_form' action='Upload' method='post' encType='multipart/form-data'>
                <input name="temp" type="text" value={this.props.label.name} style={{'display':'none'}}/>
                <input id="file"  type="file" name="file" size="50" onChange={this.onBulkPrint} />
-            </form>
+            </form>*/}
             <NotificationSystem ref="notificationSystem" />
          </div>
       );

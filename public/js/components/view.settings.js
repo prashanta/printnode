@@ -98,6 +98,14 @@ export default class ViewSettings extends React.Component{
       this.setState({printerStatus: 'Checking ...'});
       $.get('/api/printerstatus', function(data){
          this.setState({printerStatus: data});
+      }.bind(this))
+      .fail(function(err){
+         this._notificationSystem.addNotification({
+            message: err.responseText,
+            level: 'error',
+            position: 'tc',
+         });
+         this.setState({printerStatus: 'Error!'});
       }.bind(this));
    }
 
@@ -127,7 +135,7 @@ export default class ViewSettings extends React.Component{
             level: 'error',
             position: 'tc',
          });
-      }.bind(this));;
+      }.bind(this));
    }
 
    render(){

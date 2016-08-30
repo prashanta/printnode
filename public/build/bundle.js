@@ -55060,7 +55060,9 @@ var ViewSettings = (function (_React$Component) {
                   null,
                   'PrintNode'
                ),
-               ' is a web based app to configure, test and print bar codes and labels.'
+               ' is a web based app to configure, test and print bar code labels.',
+               _react2['default'].createElement('br', null),
+               'Uses MQTT to expose a broker based printing service, indented to be deployed on RPi.'
             )
          );
       }
@@ -55242,12 +55244,6 @@ var ViewLabelTemplate = (function (_React$Component) {
                'Print'
             ),
             _react2['default'].createElement('br', null),
-            _react2['default'].createElement(
-               'form',
-               { ref: 'fileUpload', id: 'upload_form', action: 'Upload', method: 'post', encType: 'multipart/form-data' },
-               _react2['default'].createElement('input', { name: 'temp', type: 'text', value: this.props.label.name, style: { 'display': 'none' } }),
-               _react2['default'].createElement('input', { id: 'file', type: 'file', name: 'file', size: '50', onChange: this.onBulkPrint })
-            ),
             _react2['default'].createElement(_reactNotificationSystem2['default'], { ref: 'notificationSystem' })
          );
       }
@@ -55258,6 +55254,10 @@ var ViewLabelTemplate = (function (_React$Component) {
 
 exports['default'] = ViewLabelTemplate;
 module.exports = exports['default'];
+/*<form ref="fileUpload" id='upload_form' action='Upload' method='post' encType='multipart/form-data'>
+  <input name="temp" type="text" value={this.props.label.name} style={{'display':'none'}}/>
+  <input id="file"  type="file" name="file" size="50" onChange={this.onBulkPrint} />
+</form>*/
 
 },{"./../model/model.printersettings":461,"backbone":13,"backbone-react-component":11,"backbone.radio":12,"react":444,"react-bootstrap":272,"react-dom":284,"react-notification-system":287,"react-svg-inline":315,"underscore":448}],456:[function(require,module,exports){
 /*jshint esversion: 6 */
@@ -55641,6 +55641,13 @@ var ViewSettings = (function (_React$Component) {
          this.setState({ printerStatus: 'Checking ...' });
          $.get('/api/printerstatus', (function (data) {
             this.setState({ printerStatus: data });
+         }).bind(this)).fail((function (err) {
+            this._notificationSystem.addNotification({
+               message: err.responseText,
+               level: 'error',
+               position: 'tc'
+            });
+            this.setState({ printerStatus: 'Error!' });
          }).bind(this));
       }
    }, {
@@ -55669,7 +55676,7 @@ var ViewSettings = (function (_React$Component) {
                level: 'error',
                position: 'tc'
             });
-         }).bind(this));;
+         }).bind(this));
       }
    }, {
       key: 'render',

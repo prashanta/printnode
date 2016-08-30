@@ -1,10 +1,11 @@
-<svg width="80mm" height="40mm" style="border: 1px solid #CCC" data-template-name="test">
+<svg width="79mm" height="52mm" style="border: 1px solid #CCC" data-template-name="test">
+  
+    
+  	<rect x="0mm" y="0mm" width="74mm" height="48.5mm" style="stroke: #000000; fill: none;" stroke-width="0.3mm" />
 
-    <rect x="0mm" y="0mm" width="79mm" height="39mm" style="stroke: #000000; fill: none;" stroke-width="0.3mm" />
+	<line x1="0mm" y1="22mm" x2="74mm" y2="22mm" stroke="red" stroke-width="0.25mm" fill="none" />
 
-	<line x1="0mm" y1="22mm" x2="69mm" y2="22mm" stroke="red" stroke-width="0.25mm" fill="none" />
-
-  	<line x1="30mm" y1="22mm" x2="30mm" y2="39mm"stroke="red" stroke-width="0.25mm" fill="none" />
+  	<line x1="30mm" y1="22mm" x2="30mm" y2="48.5mm"stroke="red" stroke-width="0.25mm" fill="none" />
 
     <text x="1mm" y="3.5mm" font-size= "2mm">Part Number</text>
     <text x="1mm" y="10mm" font-size= "4mm">{PartNo}</text>

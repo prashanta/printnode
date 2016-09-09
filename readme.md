@@ -4,6 +4,7 @@ A server app that relays print commands to GoDEX barcode printer connected via s
 
 Intended to be deployed on a RaspberryPi (using resin.io).
 
+![](https://raw.githubusercontent.com/prashanta/printnode/master/public/img/map.png)
 ---
 ###To install:
 ```sh

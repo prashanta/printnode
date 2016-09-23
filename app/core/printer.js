@@ -7,6 +7,7 @@ var logger = require('tracer').console();
 var xmlParser = require('xml-parser');
 var _ = require('underscore');
 var svg2ezpl = require('./svg2ezpl');
+var Promise = require('bluebird');
 
 var printer = {
    status : {  '00': 'Ready',
@@ -152,20 +153,30 @@ var printer = {
                callback({error: -1, message: "Error opening COM port. Please check if printer is connected."});
          }
          else {
+            var promiseItems = [];
             for(var i=0; i<jsondata.length; i++){
                console.log(jsondata[i]);
                var printData = this.printPrefix(cp) + se.getPrintCmd(jsondata[i], template);
-               sp.write(printData);
+               promiseItems.push(this.writeToPort(printData, sp));
             }
-            //sp.close();
-            if(callback)
-               callback("Bulk printing done");
+            Promise.each(promiseItems, function(result, index, length){
+               console.log('Printed ' + index + ' of ' + length);
+            }.bind(this))
+            .then(function(result){
+               sp.close();
+               if(callback)
+                  callback("Bulk printing done");
+            });
          }
       }.bind(this));
    },
 
-   printLabelCsv: function(port, data, callback){
-
+   writeToPort: function(printData, sp){
+      return new Promise(function(resolve, reject){
+         sp.write(printData, function(err, results){
+            resolve("done");
+         });
+      }.bind(this));
    },
 
    getPrinterStatus: function(port, callback){

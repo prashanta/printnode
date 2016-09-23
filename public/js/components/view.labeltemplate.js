@@ -10,7 +10,7 @@ import {Panel, Form, FormGroup, ControlLabel, FormControl, Button, Grid, Row, Co
 import ModelPrinterSettings from './../model/model.printersettings';
 import Radio  from 'backbone.radio';
 import NotificationSystem from 'react-notification-system';
-import SVGInline from "react-svg-inline"
+import SVGInline from "react-svg-inline";
 
 export default class ViewLabelTemplate extends React.Component{
 
@@ -21,6 +21,7 @@ export default class ViewLabelTemplate extends React.Component{
       this.files = "";
       this.onPrint = this.onPrint.bind(this);
       this.onBulkPrint = this.onBulkPrint.bind(this);
+      this.onCopiesChange = this.onCopiesChange.bind(this);
    }
 
    componentWillMount(){
@@ -52,14 +53,18 @@ export default class ViewLabelTemplate extends React.Component{
    }
 
    onBulkPrint(event){
-      console.log(event.target.files)
+      console.log(event.target.files);
       var el = ReactDOM.findDOMNode(this.refs.fileUpload);
       var formData = new FormData(el);
       var xhr = new XMLHttpRequest();
       // Add any event handlers here...
-      xhr.open('POST', '/bulk', true);
+      xhr.open('POST', 'api/bulk', true);
       xhr.send(formData);
+   }
 
+   onCopiesChange(e){
+      var val = e.target.value;
+      ReactDOM.findDOMNode(this.refs.copiesBulk).value = val;
    }
 
    render(){
@@ -88,7 +93,7 @@ export default class ViewLabelTemplate extends React.Component{
                            Copies
                         </Col>
                         <Col sm={10}>
-                           <FormControl ref="copies" type="text"/>
+                           <FormControl ref="copies" type="text" onChange={this.onCopiesChange}/>
                         </Col>
                      </FormGroup>
 
@@ -100,10 +105,11 @@ export default class ViewLabelTemplate extends React.Component{
             </Row>
             <Button bsStyle="primary" onClick={this.onPrint}>Print</Button>
             <br/>
-            {/*<form ref="fileUpload" id='upload_form' action='Upload' method='post' encType='multipart/form-data'>
+            <form ref="fileUpload" id='upload_form' action='Upload' method='post' encType='multipart/form-data'>
                <input name="temp" type="text" value={this.props.label.name} style={{'display':'none'}}/>
+               <input name="copies" type="text" style={{'display':'none'}} ref="copiesBulk"/>
                <input id="file"  type="file" name="file" size="50" onChange={this.onBulkPrint} />
-            </form>*/}
+            </form>
             <NotificationSystem ref="notificationSystem" />
          </div>
       );

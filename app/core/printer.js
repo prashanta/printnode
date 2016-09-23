@@ -140,6 +140,34 @@ var printer = {
       });
    },
 
+   printLabelBulk: function(port, jsondata, template, copies, callback){
+      var se = new svg2ezpl();
+      var cp = copies || 1;
+      var sp = new serialPort.SerialPort(port, {baudrate: 9600}, false);
+
+      sp.open(function (error) {
+         if(error){
+            console.log('failed to open: '+error);
+            if(callback)
+               callback({error: -1, message: "Error opening COM port. Please check if printer is connected."});
+         }
+         else {
+            for(var i=0; i<jsondata.length; i++){
+               console.log(jsondata[i]);
+               var printData = this.printPrefix(cp) + se.getPrintCmd(jsondata[i], template);
+               sp.write(printData);
+            }
+            //sp.close();
+            if(callback)
+               callback("Bulk printing done");
+         }
+      }.bind(this));
+   },
+
+   printLabelCsv: function(port, data, callback){
+
+   },
+
    getPrinterStatus: function(port, callback){
       var sp = new serialPort.SerialPort(port, {baudrate: 9600, parser: serialPort.parsers.readline('\n')}, false);
       sp.open(function (error) {

@@ -1,0 +1,26 @@
+<svg width="79mm" height="52mm" style="border: 1px solid #CCC" data-template-name="test">
+  
+    
+  	<rect x="0mm" y="0mm" width="74mm" height="48.5mm" style="stroke: #000000; fill: none;" stroke-width="0.3mm" />
+
+	<line x1="0mm" y1="18mm" x2="74mm" y2="18mm" stroke="red" stroke-width="0.25mm" fill="none" />
+  	<line x1="0mm" y1="33mm" x2="35mm" y2="33mm" stroke="red" stroke-width="0.25mm" fill="none" />
+  	
+  	<line x1="35mm" y1="0mm" x2="35mm" y2="48.5mm"stroke="red" stroke-width="0.25mm" fill="none" />
+  
+
+    <text x="1mm" y="3.5mm" font-size= "2mm">Part Number</text>
+    <text x="1mm" y="10mm" font-size= "4mm">{partno}</text>
+  
+  	
+  	<text x="36mm" y="3.5mm" font-size= "2mm">KIT NO</text>
+    <text x="36mm" y="10mm" font-size= "4mm">{kitno}</text>
+   
+    <text x="1mm" y="22mm" font-size= "2mm">QTY ({uom})</text>
+    <text x="1mm" y="28mm" font-size= "4mm">{qty}</text>
+
+  	<text x="1mm" y="36mm" font-size= "2mm">BIN</text>
+    <text x="1mm" y="42mm" font-size= "4mm">{bin}</text>
+
+  	<text x="55mm" y="45mm" font-size= "1mm">#DATE#</text>
+</svg>

@@ -3,13 +3,26 @@ var express = require('express');
 var jsonfile = require('jsonfile');
 var printer = require('./../core/printer');
 var mqttClient  = require('./../core/mqttutil');
+var fs = require('fs');
+var path = require('path');
+var multer  = require('multer');
+var parse = require('csv-parse');
+var storage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, './uploads');
+   },
+   filename: function (req, file, cb) {
+      console.log(file);
+      cb(null, file.originalname);
+   }
+});
+
+var upload = multer({ storage: storage });
 
 module.exports = function(app){
 
    var router = express.Router();
    //var mc = new mqttClient();
-
-
    /*
    * GET PRINTER SETTINGS
    * Returns printer and print server specific settings.
@@ -107,6 +120,33 @@ module.exports = function(app){
          else
             res.send(result);
       });
+   });
+
+   router.post('/bulk', upload.single('file'), function (req, res, next) {
+      console.log(req.body);
+      console.log(req.file);
+      //var settings = jsonfile.readFileSync('settings.json');
+      // open csv file
+      var data = fs.readFileSync(path.join(req.file.destination, req.file.filename), 'utf8');
+      // parse csv
+      parse(data, {comment: '#'}, function(err, output){
+         var keys = output[0];
+         var jsondata = [];
+         // change to json format
+         for(var i=1; i<output.length; i++){
+            var unit = {};
+            var line = output[i];
+            for(var j=0; j<keys.length; j++){
+               unit[keys[j]] = line[j];
+            }
+            jsondata.push(unit);
+         }
+         var data = jsonfile.readFileSync('app/settings.json');
+         printer.printLabelBulk(data.ports[data.selectedPort], jsondata, req.body.temp, req.body.copies, function(result){
+            console.log(result);
+         });
+         // send to printer
+      }.bind(this));
    });
 
    router.get('/printerstatus', function(req, res) {

@@ -1,13 +1,12 @@
 var path = require('path');
 var express = require('express');
-var multer  = require('multer')
+var multer  = require('multer');
 var exphbs  = require('express-handlebars');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var glob = require('glob');
 var mqttClient  = require('./core/mqttutil');
-var upload = multer({ dest: './uploads/' });
 
 module.exports = function(app, config) {
    var env = process.env.NODE_ENV || 'development';
@@ -35,11 +34,6 @@ module.exports = function(app, config) {
    var routes = glob.sync(config.root + '/app/routes/*.js');
    routes.forEach(function (route) {
       require(route)(app);
-   });
-
-   app.post('/bulk', upload.single('file'), function (req, res, next) {
-      console.log(req.body);
-      console.log(req.file);
    });
 
    app.use(function (req, res, next) {
